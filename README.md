@@ -104,3 +104,18 @@ Of course you want to get a list of notifications per user. Here are some exampl
 You can do something like this to use the notification-list in your view:
 
     $this->set('notifications', $this->Notifier->notificationList());
+    
+### Model / Entity
+The following getters can be used at your entity:
+- `title` - The generated title including the variables.
+- `body` - The generated body including the variables.
+- `unread` - Boolean if the notification is not read yet.
+- `read` - Boolean if the notification is read yet.
+
+Example:
+    
+    // returns true or false
+    $entity->get('unread');
+    
+    // returns string
+    $entity->get('body');
