@@ -78,4 +78,20 @@ class Notification extends Entity
 
         return Text::insert($template['body'], $vars);
     }
+
+    protected function _getUnread()
+    {
+        if($this->_properties['state'] === 1) {
+            return true;
+        }
+        return false;
+    }
+
+    protected function _getRead()
+    {
+        if($this->_properties['state'] === 0) {
+            return true;
+        }
+        return false;
+    }
 }

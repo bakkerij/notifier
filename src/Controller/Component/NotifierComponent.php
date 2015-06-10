@@ -105,7 +105,7 @@ class NotifierComponent extends Component
 
         $options = array_merge($_options, $options);
 
-        Configure::write('Notifier.templates.'.$name, $options);
+        Configure::write('Notifier.templates.' . $name, $options);
     }
 
     /**
@@ -116,11 +116,18 @@ class NotifierComponent extends Component
      */
     public function notificationList($user = null)
     {
-//        if(!$user) {
-//            $user = $this->Controller->Auth->user();
-//        } else {
-//
-//        }
+        if (!$user) {
+            $user = $this->Controller->Auth->user('id');
+        }
+
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        $query = $model->find('all')->where([
+            'user_id' => $user,
+            'state' => 1
+        ]);
+
+        return $query->toArray();
     }
 
     /**
@@ -143,6 +150,79 @@ class NotifierComponent extends Component
         ]);
 
         return $query->count();
+    }
+
+    /**
+     * notificationList
+     *
+     * @param int $user User id.
+     * @return void
+     */
+    public function allNotificationList($user = null)
+    {
+        if (!$user) {
+            $user = $this->Controller->Auth->user('id');
+        }
+
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        $query = $model->find('all')->where([
+            'user_id' => $user,
+        ]);
+
+        return $query->toArray();
+    }
+
+    /**
+     * notificationCount
+     *
+     * @param int $user User id.
+     * @return int
+     */
+    public function allNotificationCount($user = null)
+    {
+        if (!$user) {
+            $user = $this->Controller->Auth->user('id');
+        }
+
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        $query = $model->find('all')->where([
+            'user_id' => $user,
+        ]);
+
+        return $query->count();
+    }
+
+
+    public function markAsRead($notificationId = null, $user = null)
+    {
+        if (!$user) {
+            $user = $this->Controller->Auth->user('id');
+        }
+
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        if (!$notificationId) {
+            $query = $model->find('all')->where([
+                'user_id' => $user,
+                'state' => 1
+            ]);
+        } else {
+            $query = $model->find('all')->where([
+                'user_id' => $user,
+                'id' => $notificationId
+
+            ]);
+        }
+
+        $result = $query->toArray();
+
+        foreach ($result as $item) {
+            $item->set('state', 0);
+            $model->save($item);
+        }
+
     }
 
     /**

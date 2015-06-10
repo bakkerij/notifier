@@ -60,7 +60,7 @@ Removing a template is easy:
 ### Notify
 Now we will be able to send a new notification using our `newBlog` template.
 
-    $this->Notifier->notifiy([
+    $this->Notifier->notify([
         'users' => [1,2],
         'roles' => [1],
         'template' => 'newBlog',
@@ -86,14 +86,20 @@ Of course you want to get a list of notifications per user. Here are some exampl
     // getting a list of notifications of the current logged in users
     $this->Notifier->notificationList();
 
-    // getting a list of notifications of the user with id 2
+    // getting a list of unread notifications of the user with id 2
     $this->Notifier->notificationList(2);
-
+    
+    // getting a list of all notifications
+    $this->Notifier->allNotificationList();
+    
     // getting an integer how many unread notifications the current logged in users has
     $this->Notifier->notificationCount();
 
     // getting an integer how many unread notifications the user with id 2 has
     $this->Notifier->notificationCount(2);
+    
+    // getting an integer how many  notifications the current logged in users has
+    $this->Notifier->allNotificationCount();
 
 You can do something like this to use the notification-list in your view:
 
