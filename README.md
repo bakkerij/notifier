@@ -37,7 +37,7 @@ new notifications, and return a list of unread notifications.
 
 Add the following to your AppController:
 
-$this->loadComponent('Notifier.Notifier');
+    $this->loadComponent('Notifier.Notifier');
 
 ### Templates
 Notifications are viewed in a template including variables. When sending a new notification, you tell the notification

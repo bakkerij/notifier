@@ -1,5 +1,5 @@
 {
-    "name": "your-name-here/Notifier",
+    "name": "cakemanager/cakephp-notifier",
     "description": "Notifier plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
