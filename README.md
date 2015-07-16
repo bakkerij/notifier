@@ -80,6 +80,26 @@ can use the `roles` attribute. This can be a integer or array.
 - `vars` - Variables to use. In the template `newBlog` we used the variables `username` and `name`. These variables can
 be defined here.
 
+### NotificationManager
+When you are in a controller, you can use the `NotifierComponent` to use the `notifiy`-method. On all other locations in
+CakePHP you can use the `NotificationManager`. This class is a singleton, and can be called this way:
+
+    // call the Manager
+    NotificationManager::instance()
+    
+    // notify
+    NotificationManager::instance()->notify([
+        'users' => [1,2],
+        'roles' => [1],
+        'template' => 'newBlog',
+        'vars' => [
+            'username' => 'Bob Mulder',
+            'name' => 'My great new blogpost'
+        ]
+    ]);
+    
+The `NotificationManager` has the following namespace: `Notifier\Utility`.
+
 ### Lists
 Of course you want to get a list of notifications per user. Here are some examples:
 

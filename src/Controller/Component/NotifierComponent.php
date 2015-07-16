@@ -19,6 +19,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
+use Notifier\Utility\Notifier\NotificationManager;
 
 /**
  * Notifier component
@@ -122,10 +123,14 @@ class NotifierComponent extends Component
 
         $model = TableRegistry::get('Notifier.Notifications');
 
-        $query = $model->find('all')->where([
-            'user_id' => $user,
-            'state' => 1
-        ]);
+        $query = $model
+            ->find('all')
+            ->where([
+                    'user_id' => $user,
+                    'state' => 1
+                ]
+            )
+            ->order(['Notifications.id' => 'DESC']);
 
         return $query->toArray();
     }
@@ -166,9 +171,12 @@ class NotifierComponent extends Component
 
         $model = TableRegistry::get('Notifier.Notifications');
 
-        $query = $model->find('all')->where([
-            'user_id' => $user,
-        ]);
+        $query = $model
+            ->find('all')
+            ->where([
+                'user_id' => $user,
+            ])
+            ->order(['Notifications.id' => 'DESC']);
 
         return $query->toArray();
     }
@@ -229,7 +237,7 @@ class NotifierComponent extends Component
      * notify
      *
      * Sends notifications to specific users.
-     * The first parameter `$data` is an array with muliple options.
+     * The first parameter `$data` is an array with multiple options.
      *
      * ### Options
      * - `users` - An array or int with id's of users who will receive a notification.
@@ -238,12 +246,10 @@ class NotifierComponent extends Component
      * - `vars` - The variables used in the template.
      *
      * @param array $data Data with options.
-     * @return void
+     * @return string
      */
     public function notify($data)
     {
-        $model = TableRegistry::get('Notifier.Notifications');
-
-        $model->notify($data);
+        return NotificationManager::instance()->notify($data);
     }
 }

@@ -32,6 +32,7 @@ class Notification extends Entity
     protected $_accessible = [
         'template' => true,
         'vars' => true,
+        'tracking_id' => true,
         'user_id' => true,
         'state' => false,
         'user' => false,
