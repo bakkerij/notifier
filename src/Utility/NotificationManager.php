@@ -59,12 +59,18 @@ class NotificationManager
 
         $_data = [
             'users' => [],
+            'recipientLists' => [],
             'template' => 'default',
             'vars' => [],
             'tracking_id' => $this->getTrackingId()
         ];
 
         $data = array_merge($_data, $data);
+
+        foreach ((array)$data['recipientLists'] as $recipientList) {
+            $list = $this->getRecipientList($recipientList);
+            $data['users'] = $data['users'] + $list;
+        }
 
         foreach ($data['users'] as $user) {
             $entity = $model->newEntity();
@@ -78,6 +84,16 @@ class NotificationManager
         }
 
         return $data['tracking_id'];
+    }
+
+    public function addRecipientList($name, $userIds)
+    {
+        Configure::write('Notifier.recipientLists.' . $name, $userIds);
+    }
+
+    public function getRecipientList($name)
+    {
+        return Configure::read('Notifier.recipientLists.' . $name);
     }
 
     public function getTrackingId()

@@ -42,7 +42,7 @@ class Notification extends Entity
     {
         $array = json_decode($vars, true);
 
-        if(is_object($array)) {
+        if (is_object($array)) {
             return $array;
         }
 
@@ -51,7 +51,7 @@ class Notification extends Entity
 
     protected function _setVars($vars)
     {
-        if(is_array($vars)) {
+        if (is_array($vars)) {
             return json_encode($vars);
         }
 
@@ -62,27 +62,31 @@ class Notification extends Entity
     {
         $templates = Configure::read('Notifier.templates');
 
-        $template = $templates[$this->_properties['template']];
+        if (array_key_exists($this->_properties['template'], $templates)) {
+            $template = $templates[$this->_properties['template']];
 
-        $vars = json_decode($this->_properties['vars'], true);
+            $vars = json_decode($this->_properties['vars'], true);
 
-        return Text::insert($template['title'], $vars);
+            return Text::insert($template['title'], $vars);
+        }
     }
 
     protected function _getBody()
     {
         $templates = Configure::read('Notifier.templates');
 
-        $template = $templates[$this->_properties['template']];
+        if (array_key_exists($this->_properties['template'], $templates)) {
+            $template = $templates[$this->_properties['template']];
 
-        $vars = json_decode($this->_properties['vars'], true);
+            $vars = json_decode($this->_properties['vars'], true);
 
-        return Text::insert($template['body'], $vars);
+            return Text::insert($template['body'], $vars);
+        }
     }
 
     protected function _getUnread()
     {
-        if($this->_properties['state'] === 1) {
+        if ($this->_properties['state'] === 1) {
             return true;
         }
         return false;
@@ -90,7 +94,7 @@ class Notification extends Entity
 
     protected function _getRead()
     {
-        if($this->_properties['state'] === 0) {
+        if ($this->_properties['state'] === 0) {
             return true;
         }
         return false;
