@@ -16,8 +16,8 @@ namespace Notifier\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validator;
 
 /**
  * Notifications Model
@@ -63,5 +63,4 @@ class NotificationsTable extends Table
 
         return $validator;
     }
-
 }

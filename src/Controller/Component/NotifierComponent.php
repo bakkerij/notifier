@@ -53,8 +53,6 @@ class NotifierComponent extends Component
         parent::initialize($config);
 
         $this->Controller = $this->_registry->getController();
-
-        Configure::write('Notifier.config', $this->config());
     }
 
     /**
@@ -71,138 +69,99 @@ class NotifierComponent extends Component
     }
 
     /**
-     * addTemplate
+     * getNotifications
      *
-     * Adds a template to the storage.
+     * Returns a list of notifications.
      *
-     * ### Variables
-     * Titles and bodies can contain variables. For that the
-     * `Cake\Utilities\Text::insert($string, $data)` is used:
-     * http://book.cakephp.org/3.0/en/core-libraries/text.html#Cake\Utility\Text::insert
+     * ### Examples
+     * ```
+     *  // if the user is logged in, this is the way to get all notifications
+     *  $this->Notifier->getNotifications();
      *
-     * ### Options
-     * - `title` - The title.
-     * - `body` - The body.
+     *  // for a specific user, use the first parameter for the user_id
+     *  $this->Notifier->getNotifications(1);
      *
-     * ### Example
+     *  // default all notifications are returned. Use the second parameter to define read / unread:
      *
-     * $this->Notifier->addTemplate('newUser', [
-     *  'title' => 'New User: :name',
-     *  'body' => 'The user :email has been registered'
-     * ]);
+     *  // get all unread notifications
+     *  $this->Notifier->getNotifications(1, true);
      *
-     * This code contains the variables `title` and `body`.
-     *
-     * @param string $name Unique name.
-     * @param array $options Options.
-     * @return void
+     *  // get all read notifications
+     *  $this->Notifier->getNotifications(1, false);
+     * ```
+     * @param int|null $userId Id of the user.
+     * @param bool|null $state The state of notifications: `true` for unread, `false` for read, `null` for all.
+     * @return array
      */
-    public function addTemplate($name, $options = [])
+    public function getNotifications($userId = null, $state = null)
     {
-        $_options = [
-            'title' => 'Notification',
-            'body' => '',
-        ];
-
-        $options = array_merge($_options, $options);
-
-        Configure::write('Notifier.templates.' . $name, $options);
-    }
-
-    /**
-     * notificationList
-     *
-     * @param int $user User id.
-     * @return void
-     */
-    public function notificationList($user = null)
-    {
-        if (!$user) {
-            $user = $this->Controller->Auth->user('id');
+        if (!$userId) {
+            $userId = $this->Controller->Auth->user('id');
         }
 
         $model = TableRegistry::get('Notifier.Notifications');
 
-        $query = $model
-            ->find('all')
-            ->where([
-                    'user_id' => $user,
-                    'state' => 1
-                ]
-            )
-            ->order(['Notifications.id' => 'DESC']);
+        $query = $model->find()->where(['Notifications.user_id' => $userId]);
+
+        if (!is_null($state)) {
+            $query->where(['Notifications.state' => $state]);
+        }
 
         return $query->toArray();
     }
 
     /**
-     * notificationCount
+     * countNotifications
      *
-     * @param int $user User id.
+     * Returns a number of notifications.
+     *
+     * ### Examples
+     * ```
+     *  // if the user is logged in, this is the way to count all notifications
+     *  $this->Notifier->countNotifications();
+     *
+     *  // for a specific user, use the first parameter for the user_id
+     *  $this->Notifier->countNotifications(1);
+     *
+     *  // default all notifications are counted. Use the second parameter to define read / unread:
+     *
+     *  // count all unread notifications
+     *  $this->Notifier->countNotifications(1, true);
+     *
+     *  // count all read notifications
+     *  $this->Notifier->countNotifications(1, false);
+     * ```
+     * @param int|null $userId Id of the user.
+     * @param bool|null $state The state of notifications: `true` for unread, `false` for read, `null` for all.
      * @return int
      */
-    public function notificationCount($user = null)
+    public function countNotifications($userId = null, $state = null)
     {
-        if (!$user) {
-            $user = $this->Controller->Auth->user('id');
+        if (!$userId) {
+            $userId = $this->Controller->Auth->user('id');
         }
 
         $model = TableRegistry::get('Notifier.Notifications');
 
-        $query = $model->find('all')->where([
-            'user_id' => $user,
-            'state' => 1
-        ]);
+        $query = $model->find()->where(['Notifications.user_id' => $userId]);
+
+        if (!is_null($state)) {
+            $query->where(['Notifications.state' => $state]);
+        }
 
         return $query->count();
     }
 
     /**
-     * notificationList
+     * markAsRead
      *
-     * @param int $user User id.
+     * Used to mark a notification as read.
+     * If no notificationId is given, all notifications of the chosen user will be marked as read.
+     *
+     * @param int $notificationId Id of the notification.
+     * @param int|null $user Id of the user. Else the id of the session will be taken.
      * @return void
      */
-    public function allNotificationList($user = null)
-    {
-        if (!$user) {
-            $user = $this->Controller->Auth->user('id');
-        }
-
-        $model = TableRegistry::get('Notifier.Notifications');
-
-        $query = $model
-            ->find('all')
-            ->where([
-                'user_id' => $user,
-            ])
-            ->order(['Notifications.id' => 'DESC']);
-
-        return $query->toArray();
-    }
-
-    /**
-     * notificationCount
-     *
-     * @param int $user User id.
-     * @return int
-     */
-    public function allNotificationCount($user = null)
-    {
-        if (!$user) {
-            $user = $this->Controller->Auth->user('id');
-        }
-
-        $model = TableRegistry::get('Notifier.Notifications');
-
-        $query = $model->find('all')->where([
-            'user_id' => $user,
-        ]);
-
-        return $query->count();
-    }
-
-
     public function markAsRead($notificationId = null, $user = null)
     {
         if (!$user) {
@@ -224,13 +183,10 @@ class NotifierComponent extends Component
             ]);
         }
 
-        $result = $query->toArray();
-
-        foreach ($result as $item) {
+        foreach ($query as $item) {
             $item->set('state', 0);
             $model->save($item);
         }
-
     }
 
     /**
@@ -244,6 +200,18 @@ class NotifierComponent extends Component
      * - `roles` - An array or int with id's of roles which all users ill receive a notification.
      * - `template` - The template wich will be used.
      * - `vars` - The variables used in the template.
+     *
+     * ### Example
+     * ```
+     *  NotificationManager::instance()->notify([
+     *      'users' => 1,
+     *      'template' => 'newOrder',
+     *      'vars' => [
+     *          'receiver' => $receiver->name
+     *          'total' => $order->total
+     *      ],
+     *  ]);
+     * ```
      *
      * @param array $data Data with options.
      * @return string

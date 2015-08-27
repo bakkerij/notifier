@@ -1,9 +1,7 @@
 # Notifier plugin for CakePHP
 
-> Note: This is a non-stable plugin for CakePHP 3.x at this time. It is currently under development and should be considered experimental.
-
-the Notifier plugin for CakePHP 3.x (and the [CakeManager](https://github.com/cakemanager/cakephp-cakemanager) is able
-to create notifications very easily. Also the plugin helps you getting a list of notifications for your users.
+> Note: This is a non-stable plugin for CakePHP 3.x at this time. It is currently under development and should be
+considered experimental.
 
 ## Installation
 
@@ -12,10 +10,12 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install composer packages is:
 
 ```
-    composer require cakemanager/cakephp-notifier
+    composer require cakemanager/cakephp-notifier:dev-master
 ```
 
-## Configurations
+## Usage
+
+### Configurations
 
 You will need to add the following line to your application's bootstrap.php file:
 
@@ -30,14 +30,18 @@ After loading the plugin you need to migrate the tables for the plugin using:
 
     bin/cake migrations migrate -p Notifier
 
-## Usage
+### NotificationManager
 
-The `NotifierComponent` is the most important part of the plugin. this Component is able to register templates, send
-new notifications, and return a list of unread notifications.
+The `NotificationManager` is the Manager of the plugin. You can get an instance with:
 
-Add the following to your AppController:
+    NotificationManager::instance();
 
-    $this->loadComponent('Notifier.Notifier');
+The `NotificationManager` has the following namespace: `Notifier\Utility\NotificationManager`.
+
+### NotifierComponent
+
+The `NotifierComponent can be used in controllers to create notifications and return data like read/unread notifications
+and totals (like 4 unread notifications).
 
 ### Templates
 Notifications are viewed in a template including variables. When sending a new notification, you tell the notification
@@ -45,7 +49,7 @@ what template to use.
 
 An example about how to add templates:
 
-    $this->Notifier->addTemplate('newBlog', [
+    $notificationManager->addTemplate('newBlog', [
         'title' => 'New blog by :username',
         'body' => ':username has posted a new blog named :name'
     ]);
@@ -55,14 +59,14 @@ and `:name`. Later on we will tell more about these variables.
 
 Removing a template is easy:
 
-    $this->Notifier->removeTemplate('newBlog');
+    $notificationManager->removeTemplate('newBlog');
 
 ### Notify
 Now we will be able to send a new notification using our `newBlog` template.
 
-    $this->Notifier->notify([
+    $notificationManager->notify([
         'users' => [1,2],
-        'roles' => [1],
+        'recipientLists' => ['administrators'],
         'template' => 'newBlog',
         'vars' => [
             'username' => 'Bob Mulder',
@@ -70,61 +74,65 @@ Now we will be able to send a new notification using our `newBlog` template.
         ]
     ]);
 
+> Note: You are also able to send notifications via the component: `$this->Notifier->notify()`.
+
 With the `notify` method we sent a new notification. A list of all attributes:
 
-- `users` - This is an integer or array filled with id's of users to notify. So, when you want to notify user 261 and 373, add
-`[261, 373]`.
-- `roles` - Sometimes you want to notify a whole role (notify all administrators when there's a new user). For that you
-can use the `roles` attribute. This can be a integer or array.
+- `users` - This is an integer or array filled with id's of users to notify. So, when you want to notify user 261 and
+373, add `[261, 373]`.
+- `recipientLists` - This is a string or array with lists of recipients. Further on you can find more about
+RecipientLists.
 - `template` - The template you added, for example `newBlog`.
 - `vars` - Variables to use. In the template `newBlog` we used the variables `username` and `name`. These variables can
 be defined here.
 
-### NotificationManager
-When you are in a controller, you can use the `NotifierComponent` to use the `notifiy`-method. On all other locations in
-CakePHP you can use the `NotificationManager`. This class is a singleton, and can be called this way:
-
-    // call the Manager
-    NotificationManager::instance()
-    
-    // notify
-    NotificationManager::instance()->notify([
-        'users' => [1,2],
-        'roles' => [1],
-        'template' => 'newBlog',
-        'vars' => [
-            'username' => 'Bob Mulder',
-            'name' => 'My great new blogpost'
-        ]
-    ]);
-    
-The `NotificationManager` has the following namespace: `Notifier\Utility`.
-
 ### Lists
 Of course you want to get a list of notifications per user. Here are some examples:
 
-    // getting a list of notifications of the current logged in users
-    $this->Notifier->notificationList();
+    // getting a list of all notifications of the current logged in user
+    $this->Notifier->getNotifications();
 
-    // getting a list of unread notifications of the user with id 2
-    $this->Notifier->notificationList(2);
+    // getting a list of all notifications of the user with id 2
+    $this->Notifier->getNotifications(2);
     
-    // getting a list of all notifications
-    $this->Notifier->allNotificationList();
-    
-    // getting an integer how many unread notifications the current logged in users has
-    $this->Notifier->notificationCount();
+    // getting a list of all unread notifications
+    $this->Notifier->allNotificationList(2, true);
 
-    // getting an integer how many unread notifications the user with id 2 has
-    $this->Notifier->notificationCount(2);
+    // getting a list of all read notifications
+    $this->Notifier->allNotificationList(2, false);
     
-    // getting an integer how many  notifications the current logged in users has
-    $this->Notifier->allNotificationCount();
+    // getting a number of all notifications of the current logged in user
+    $this->Notifier->countNotifications();
+
+    // getting a number of all notifications of the user with id 2
+    $this->Notifier->countNotifications(2);
+    
+    // getting a number of all unread notifications
+    $this->Notifier->countNotificationList(2, true);
+
+    // getting a number of all read notifications
+    $this->Notifier->countNotificationList(2, false);
 
 You can do something like this to use the notification-list in your view:
 
-    $this->set('notifications', $this->Notifier->notificationList());
+    $this->set('notifications', $this->Notifier->getNotifications());
+
+### RecipientLists
+To send notifications to large groups you are able to use RecipientLists.
+You can register them with:
+
+    $notificationManager->addRecipientList('administrators', [1,2,3,4]);
     
+Now we have created a list of recipients called `administrators`.
+
+This can be used later on when we send a new notification: 
+
+    $notificationManager->notify([
+        'recipientLists' => ['administrators'],
+    ]);
+
+Now, the users 1, 2, 3 and 4 will recieve a notification.
+
 ### Model / Entity
 The following getters can be used at your entity:
 - `title` - The generated title including the variables.
@@ -137,5 +145,11 @@ Example:
     // returns true or false
     $entity->get('unread');
     
-    // returns string
+    // returns the full output 'Bob Mulder has posted a new blog named My Great New Post'
     $entity->get('body');
+
+## Keep in touch
+If you need some help or got ideas for this plugin, feel free to chat at
+[Gitter](https://gitter.im/cakemanager/cakephp-notifier).
+
+Pull Requests are always more than welcome!

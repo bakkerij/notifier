@@ -1,43 +1,40 @@
 <?php
+/**
+ * CakeManager (http://cakemanager.org)
+ * Copyright (c) http://cakemanager.org
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) http://cakemanager.org
+ * @link          http://cakemanager.org CakeManager Project
+ * @since         1.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
 namespace Notifier\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Notifier\Model\Table\NotificationsTable;
+use Notifier\Utility\NotificationManager;
 
 /**
  * Notifier\Model\Table\NotificationsTable Test Case
  */
 class NotificationsTableTest extends TestCase
 {
-
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
+    
     public $fixtures = [
-        'Notifications' => 'plugin.notifier.notifications',
-        'Users' => 'plugin.notifier.users'
+        'plugin.notifier.notifications',
     ];
 
-    /**
-     * setUp method
-     *
-     * @return void
-     */
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Notifications') ? [] : ['className' => 'Notifier\Model\Table\NotificationsTable'];
-        $this->Notifications = TableRegistry::get('Notifications', $config);
+        $this->Notifications = TableRegistry::get('Notifier.Notifications');
     }
 
-    /**
-     * tearDown method
-     *
-     * @return void
-     */
     public function tearDown()
     {
         unset($this->Notifications);
@@ -45,33 +42,27 @@ class NotificationsTableTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize()
+    public function testEntity()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        NotificationManager::instance()->addTemplate('newNotification', [
+            'title' => 'New Notification',
+            'body' => ':from has sent :to a notification about :about'
+        ]);
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $notify = NotificationManager::instance()->notify([
+            'users' => 1,
+            'template' => 'newNotification',
+            'vars' => [
+                'from' => 'Bob',
+                'to' => 'Leonardo',
+                'about' => 'Programming Stuff'
+            ]
+        ]);
 
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $entity = $this->Notifications->get(2);
+
+        $this->assertEquals('newNotification', $entity->template);
+        $this->assertEquals('New Notification', $entity->title);
+        $this->assertEquals('Bob has sent Leonardo a notification about Programming Stuff', $entity->body);
     }
 }

@@ -19,3 +19,5 @@ Configure::write('Notifier.templates.default', [
     'title' => ':title',
     'body' => ':body'
 ]);
+
+Configure::write('Notifier.recipientLists', []);
