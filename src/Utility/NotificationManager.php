@@ -88,8 +88,8 @@ class NotificationManager
         $data = array_merge($_data, $data);
 
         foreach ((array)$data['recipientLists'] as $recipientList) {
-            $list = $this->getRecipientList($recipientList);
-            $data['users'] = $data['users'] + $list;
+            (array)$list = $this->getRecipientList($recipientList);
+            $data['users'] = array_merge($data['users'], $list);
         }
 
         foreach ((array)$data['users'] as $user) {
