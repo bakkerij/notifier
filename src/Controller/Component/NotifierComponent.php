@@ -19,7 +19,7 @@ use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Text;
-use Notifier\Utility\Notifier\NotificationManager;
+use Notifier\Utility\NotificationManager;
 
 /**
  * Notifier component
