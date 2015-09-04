@@ -101,7 +101,7 @@ class NotifierComponent extends Component
 
         $model = TableRegistry::get('Notifier.Notifications');
 
-        $query = $model->find()->where(['Notifications.user_id' => $userId]);
+        $query = $model->find()->where(['Notifications.user_id' => $userId])->order(['created' => 'desc']);
 
         if (!is_null($state)) {
             $query->where(['Notifications.state' => $state]);
