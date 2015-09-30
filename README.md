@@ -1,9 +1,7 @@
 # Notifier plugin for CakePHP
 
 [![Build Status](https://travis-ci.org/cakemanager/cakephp-notifier.svg?branch=master)](https://travis-ci.org/cakemanager/cakephp-notifier)
-
 [![Coverage Status](https://coveralls.io/repos/cakemanager/cakephp-notifier/badge.svg?branch=master&service=github)](https://coveralls.io/github/cakemanager/cakephp-notifier?branch=master)
-
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cakemanager/cakephp-notifier?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Installation
