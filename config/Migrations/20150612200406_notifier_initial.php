@@ -56,16 +56,8 @@ class NotifierInitial extends AbstractMigration
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('created', 'datetime', [
-                'default' => '0000-00-00 00:00:00',
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('modified', 'datetime', [
-                'default' => '0000-00-00 00:00:00',
-                'limit' => null,
-                'null' => true,
-            ])
+            ->addColumn('created', 'datetime')
+            ->addColumn('modified', 'datetime')
             ->create();
     }
 
