@@ -73,7 +73,6 @@ class NotificationsFixture extends TestFixture
      */
     public $records = [
         [
-            'id' => 1,
             'template' => 'newNotification',
             'vars' => '{"name":"Bob"}',
             'state' => 1,
