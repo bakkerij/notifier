@@ -51,11 +51,11 @@ class NotificationsFixture extends TestFixture
         ],
         'created' => [
             'type' => 'datetime',
-            'default' => '0000-00-00 00:00:00'
+            'default' => null
         ],
         'modified' => [
             'type' => 'datetime',
-            'default' => '0000-00-00 00:00:00'
+            'default' => null
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
