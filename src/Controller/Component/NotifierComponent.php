@@ -109,6 +109,32 @@ class NotifierComponent extends Component
 
         return $query->toArray();
     }
+    
+    /**
+     * getI18nNotifications
+     *
+     * Returns a list of translated notifications.
+     *
+     * @param int|null $userId Id of the user.
+     * @param bool|null $state The state of notifications: `true` for unread, `false` for read, `null` for all.
+     * @return array
+     */
+    public function getI18nNotifications($userId = null, $state = null)
+    {
+        if (!$userId) {
+            $userId = $this->Controller->Auth->user('id');
+        }
+
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        $query = $model->find('translations')->where(['Notifications.user_id' => $userId])->order(['created' => 'desc']);
+
+        if (!is_null($state)) {
+            $query->where(['Notifications.state' => $state]);
+        }
+
+        return $query->toArray();
+    }
 
     /**
      * countNotifications

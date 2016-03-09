@@ -43,6 +43,10 @@ class NotificationsTable extends Table
         $this->displayField('title');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Translate', [
+            'fields' => ['vars'],
+            'allowEmptyTranslations' => false
+        ]);
     }
 
     /**

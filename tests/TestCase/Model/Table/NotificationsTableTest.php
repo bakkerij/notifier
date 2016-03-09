@@ -18,6 +18,7 @@ use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use Notifier\Model\Table\NotificationsTable;
 use Notifier\Utility\NotificationManager;
+use Cake\I18n\I18n;
 
 /**
  * Notifier\Model\Table\NotificationsTable Test Case
@@ -27,6 +28,7 @@ class NotificationsTableTest extends TestCase
     
     public $fixtures = [
         'plugin.notifier.notifications',
+        'core.translates'
     ];
 
     public function setUp()
@@ -64,5 +66,49 @@ class NotificationsTableTest extends TestCase
         $this->assertEquals('newNotification', $entity->template);
         $this->assertEquals('New Notification', $entity->title);
         $this->assertEquals('Bob has sent Leonardo a notification about Programming Stuff', $entity->body);
+    }
+    
+    public function testI18nEntity()
+    {
+        NotificationManager::instance()->addI18nTemplate('newOrder', [
+            'en' => [
+                'title' => 'New order',
+                'body' => ':username bought :product'
+            ],
+            'fr' => [
+                'title' => 'Nouvelle commande',
+                'body' => ':username a acheté :product'
+            ]
+        ]);
+
+        $notify = NotificationManager::instance()->notifyI18n([
+            'users' => 1,
+            'template' => 'newOrder',
+            'vars' => [
+                'en' => [
+                    'username' => 'Bob',
+                    'product' => 'a car'
+                ],
+                'fr' => [
+                    'username' => 'Bob',
+                    'product' => 'une voiture'
+                ]
+            ]
+        ]);
+        
+        I18n::locale('en');
+        $entity = $this->Notifications->get(2);
+        
+        $this->assertEquals('newOrder', $entity->template);
+        $this->assertEquals('New order', $entity->getI18n('title', 'en'));
+        $this->assertEquals('Bob bought a car', $entity->getI18n('body', 'en'));
+        
+        I18n::locale('fr');
+        $entity = $this->Notifications->get(2);
+        
+        $this->assertEquals('newOrder', $entity->template);
+        $this->assertEquals('Nouvelle commande', $entity->getI18n('title', 'fr'));
+        $this->assertEquals('Bob a acheté une voiture', $entity->getI18n('body', 'fr'));
+        
     }
 }

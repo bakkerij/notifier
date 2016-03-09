@@ -29,7 +29,8 @@ class NotifierComponentTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.notifier.notifications'
+        'plugin.notifier.notifications',
+        'core.translates'
     ];
 
     public function setUp()
@@ -106,6 +107,29 @@ class NotifierComponentTest extends TestCase
         $this->assertEquals(2, count($this->Notifier->getNotifications(2)));
         $this->assertEquals(0, count($this->Notifier->getNotifications(2, true)));
         $this->assertEquals(2, count($this->Notifier->getNotifications(2, false)));
+    }
+
+    public function testGetI18nNotifications()
+    {
+        $this->Manager->notify(['users' => [1, 1, 1, 2, 2]]);
+
+        $this->assertEquals(3, count($this->Notifier->getI18nNotifications(1)));
+        $this->assertEquals(3, count($this->Notifier->getI18nNotifications(1, true)));
+        $this->assertEquals(0, count($this->Notifier->getI18nNotifications(1, false)));
+        $this->assertEquals(2, count($this->Notifier->getI18nNotifications(2)));
+        $this->assertEquals(2, count($this->Notifier->getI18nNotifications(2, true)));
+        $this->assertEquals(0, count($this->Notifier->getI18nNotifications(2, false)));
+
+        $this->Notifier->markAsRead(2, 1);
+        $this->Notifier->markAsRead(5, 2);
+        $this->Notifier->markAsRead(6, 2);
+
+        $this->assertEquals(3, count($this->Notifier->getI18nNotifications(1)));
+        $this->assertEquals(2, count($this->Notifier->getI18nNotifications(1, true)));
+        $this->assertEquals(1, count($this->Notifier->getI18nNotifications(1, false)));
+        $this->assertEquals(2, count($this->Notifier->getI18nNotifications(2)));
+        $this->assertEquals(0, count($this->Notifier->getI18nNotifications(2, true)));
+        $this->assertEquals(2, count($this->Notifier->getI18nNotifications(2, false)));
     }
 
     public function testMarkAsReadWithAuth()
