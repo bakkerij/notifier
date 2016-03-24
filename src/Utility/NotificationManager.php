@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakeManager (http://cakemanager.org)
  * Copyright (c) http://cakemanager.org
@@ -12,6 +13,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Notifier\Utility;
 
 use Cake\Core\Configure;
@@ -106,7 +108,6 @@ class NotificationManager
 
         return $data['tracking_id'];
     }
-    
 
     /**
      * notifyI18n
@@ -153,25 +154,25 @@ class NotificationManager
 
         $data = array_merge($_data, $data);
 
-        foreach ((array) $data['recipientLists'] as $recipientList) {
-            $list = (array) $this->getRecipientList($recipientList);
+        foreach ((array)$data['recipientLists'] as $recipientList) {
+            $list = (array)$this->getRecipientList($recipientList);
             $data['users'] = array_merge($data['users'], $list);
         }
 
-        foreach ((array) $data['users'] as $user) {
+        foreach ((array)$data['users'] as $user) {
             $entity = $model->newEntity();
-            
+
             $entity->set('template', $data['template']);
             $entity->set('tracking_id', $data['tracking_id']);
-                
+
             $entity->set('vars', current($data['vars']));
             foreach ($data['vars'] as $lang => $vars) {
                 $entity->translation($lang)->set(['vars' => $vars], ['guard' => false]);
             }
-            
+
             $entity->set('state', 1);
             $entity->set('user_id', $user);
-            
+
             $model->save($entity);
         }
 
@@ -361,4 +362,5 @@ class NotificationManager
         }
         return $trackingId;
     }
+
 }

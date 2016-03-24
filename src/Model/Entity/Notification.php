@@ -15,9 +15,9 @@
 namespace Notifier\Model\Entity;
 
 use Cake\Core\Configure;
+use Cake\ORM\Behavior\Translate\TranslateTrait;
 use Cake\ORM\Entity;
 use Cake\Utility\Text;
-use Cake\ORM\Behavior\Translate\TranslateTrait;
 
 /**
  * Notification Entity.
@@ -155,14 +155,14 @@ class Notification extends Entity
     
     /**
      * getI18n
-     * 
+     *
      * Get localized property
-     * 
+     *
      * @param string $property : `title` or `body`
-     * @param string|null $lang
+     * @param string|null $lang : language code
      * @return type
      */
-    public function getI18n($property, $lang = null) 
+    public function getI18n($property, $lang = null)
     {
         $templates = Configure::read('Notifier.templates.i18n');
 
