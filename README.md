@@ -90,26 +90,29 @@ be defined here.
 ### Lists
 Of course you want to get a list of notifications per user. Here are some examples:
 
-    // getting a list of all notifications of the current logged in user
+    // getting a list of all notifications of the current Logged In user
     $this->Notifier->getNotifications();
 
     // getting a list of all notifications of the user with id 2
     $this->Notifier->getNotifications(2);
     
-    // getting a list of all unread notifications for user with ID 2
+    // getting a list of all unread notifications for user with id 2
     $this->Notifier->getNotifications(2, true);
 
-    // getting a list of all read notifications for a user with Id 2
+    // getting a list of all read notifications for a user with id 2
     $this->Notifier->getNotifications(2, false);
 
-    // getting a limited list of all notifications for user with Id 2
-    $this->Notifier->getNotifications(2, null, 5); // Return 5 notifications
+    // getting a limited list of all notifications for user with id 2
+    $options = ['limit' => 5];
+    $this->Notifier->getNotifications(2, null, $options); // Return 5 notifications
 
     // getting a limited list of all unread notifications for Logged In user
-    $this->Notifier->getNotifications(null, true, 5); // Return 5 notifications
+    $options = ['limit' => 5];
+    $this->Notifier->getNotifications(null, true, $options); // Return 5 notifications
 
     // getting a limited list of all notifications for logged in User
-    $this->Notifier->getNotifications(null, null, 5); // Return 5 notifications
+    $options = ['limit' => 5];
+    $this->Notifier->getNotifications(null, null, $options); // Return 5 notifications
     
     // getting a number of all notifications of the current logged in user
     $this->Notifier->countNotifications();
