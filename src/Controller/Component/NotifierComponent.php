@@ -114,7 +114,7 @@ class NotifierComponent extends Component
             $query->where(['Notifications.state' => $state]);
         }
         
-        if(!empty($options['limit'])) {
+        if (!empty($options['limit'])) {
             $query->limit($options['limit']);
         }
 
