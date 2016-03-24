@@ -12,6 +12,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Notifier\Controller\Component;
 
 use Cake\Controller\Component;
@@ -88,12 +89,17 @@ class NotifierComponent extends Component
      *
      *  // get all read notifications
      *  $this->Notifier->getNotifications(1, false);
+     *
+     *  // get 4 latest unread notifications
+     * $options = ['limit' => 4];
+     * $this->Notifier->getNotifications(1, true, $options);
      * ```
      * @param int|null $userId Id of the user.
      * @param bool|null $state The state of notifications: `true` for unread, `false` for read, `null` for all.
+     * @param array|empty $options Currently supports 'limit', which limits returned notifications
      * @return array
      */
-    public function getNotifications($userId = null, $state = null)
+    public function getNotifications($userId = null, $state = null, $options = [])
     {
         if (!$userId) {
             $userId = $this->Controller->Auth->user('id');
@@ -105,6 +111,10 @@ class NotifierComponent extends Component
 
         if (!is_null($state)) {
             $query->where(['Notifications.state' => $state]);
+        }
+        
+        if (!empty($options['limit'])) {
+            $query->limit($options['limit']);
         }
 
         return $query->toArray();
@@ -179,7 +189,6 @@ class NotifierComponent extends Component
             $query = $model->find('all')->where([
                 'user_id' => $user,
                 'id' => $notificationId
-
             ]);
         }
 
