@@ -362,5 +362,4 @@ class NotificationManager
         }
         return $trackingId;
     }
-
 }

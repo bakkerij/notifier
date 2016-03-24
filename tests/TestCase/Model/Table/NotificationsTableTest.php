@@ -112,5 +112,4 @@ class NotificationsTableTest extends TestCase
         $this->assertEquals('Nouvelle commande', $entity->getI18n('title', 'fr'));
         $this->assertEquals('Bob a acheté une voiture', $entity->getI18n('body', 'fr'));
     }
-
 }

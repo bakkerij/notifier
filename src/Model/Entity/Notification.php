@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakeManager (http://cakemanager.org)
  * Copyright (c) http://cakemanager.org
@@ -12,6 +13,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Notifier\Model\Entity;
 
 use Cake\Core\Configure;
@@ -152,7 +154,7 @@ class Notification extends Entity
         }
         return false;
     }
-    
+
     /**
      * getI18n
      *
