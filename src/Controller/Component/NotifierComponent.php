@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CakeManager (http://cakemanager.org)
  * Copyright (c) http://cakemanager.org
@@ -90,7 +89,7 @@ class NotifierComponent extends Component
      *
      *  // get all read notifications
      *  $this->Notifier->getNotifications(1, false);
-     * 
+     *
      *  // get 4 latest unread notifications
      * $options = ['limit' => 4];
      * $this->Notifier->getNotifications(1, true, $options);
