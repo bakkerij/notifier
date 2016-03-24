@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakeManager (http://cakemanager.org)
  * Copyright (c) http://cakemanager.org
@@ -12,6 +13,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Notifier\Utility;
 
 use Cake\Core\Configure;
@@ -108,6 +110,76 @@ class NotificationManager
     }
 
     /**
+     * notifyI18n
+     *
+     * Sends notifications to specific users.
+     * The first parameter `$data` is an array with multiple options.
+     *
+     * ### Options
+     * - `users` - An array or int with id's of users who will receive a notification.
+     * - `roles` - An array or int with id's of roles which all users ill receive a notification.
+     * - `template` - The template wich will be used.
+     * - `vars` - The localized variables used in the template.
+     *
+     * ### Example
+     * ```
+     *  NotificationManager::instance()->notify([
+     *      'users' => 1,
+     *      'template' => 'newOrder',
+     *      'vars' => [
+     *          'en' => [
+     *              'receiver' => $receiver->name
+     *              'link' => '/en/order/],
+     *          'fr' => [
+     *              'receiver' => $receiver->name
+     *              'link' => '/fr/order/],
+     *      ],
+     *  ]);
+     * ```
+     *
+     * @param array $data Data with options.
+     * @return string The tracking_id to follow the notification.
+     */
+    public function notifyI18n($data)
+    {
+        $model = TableRegistry::get('Notifier.Notifications');
+
+        $_data = [
+            'users' => [],
+            'recipientLists' => [],
+            'template' => 'default',
+            'vars' => [],
+            'tracking_id' => $this->getTrackingId()
+        ];
+
+        $data = array_merge($_data, $data);
+
+        foreach ((array)$data['recipientLists'] as $recipientList) {
+            $list = (array)$this->getRecipientList($recipientList);
+            $data['users'] = array_merge($data['users'], $list);
+        }
+
+        foreach ((array)$data['users'] as $user) {
+            $entity = $model->newEntity();
+
+            $entity->set('template', $data['template']);
+            $entity->set('tracking_id', $data['tracking_id']);
+
+            $entity->set('vars', current($data['vars']));
+            foreach ($data['vars'] as $lang => $vars) {
+                $entity->translation($lang)->set(['vars' => $vars], ['guard' => false]);
+            }
+
+            $entity->set('state', 1);
+            $entity->set('user_id', $user);
+
+            $model->save($entity);
+        }
+
+        return $data['tracking_id'];
+    }
+
+    /**
      * addRecipientList
      *
      * Method to add a new recipient list.
@@ -183,6 +255,42 @@ class NotificationManager
     }
 
     /**
+     * addI18nTemplate
+     *
+     * Adds localized template.
+     *
+     * ### Example
+     *
+     * $this->Notifier->addTemplate('newUser', [
+     *  'en' => [
+     *    'title' => 'New User: :name',
+     *    'body' => 'The user :email has been registered'],
+     *  'fr' => [
+     *    'title' => 'Nouvel utilisateur : :name',
+     *    'body' => 'L\'utilisateur :email vient de s\'inscrire'],
+     * ]);
+     *
+     * This code contains the variables `title` and `body`.
+     *
+     * @param string $name Unique name.
+     * @param array $options Options.
+     * @return void
+     */
+    public function addI18nTemplate($name, $options = [])
+    {
+        $_options = [
+            'en' => [
+                'title' => 'Notification',
+                'body' => '',
+            ]
+        ];
+
+        $options = array_merge($_options, $options);
+
+        Configure::write('Notifier.templates.i18n.' . $name, $options);
+    }
+
+    /**
      * getTemplate
      *
      * Returns the requested template.
@@ -195,6 +303,34 @@ class NotificationManager
     public function getTemplate($name, $type = null)
     {
         $templates = Configure::read('Notifier.templates');
+
+        if (array_key_exists($name, $templates)) {
+            if ($type == 'title') {
+                return $templates[$name]['title'];
+            }
+            if ($type == 'body') {
+                return $templates[$name]['body'];
+            }
+            return $templates[$name];
+        }
+
+        return false;
+    }
+
+    /**
+     * getI18nTemplate
+     *
+     * Returns the requested localized template.
+     * If the template or type does not exists, `false` will be returned.
+     *
+     * @param string $lang Language code.
+     * @param string $name Name of the template.
+     * @param string|null $type The type like `title` or `body`. Leave empty to get the whole template.
+     * @return array|string|bool
+     */
+    public function getI18nTemplate($lang, $name, $type = null)
+    {
+        $templates = Configure::read('Notifier.templates.i18n');
 
         if (array_key_exists($name, $templates)) {
             if ($type == 'title') {

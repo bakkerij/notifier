@@ -23,7 +23,8 @@ class NotificationManagerTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.notifier.notifications'
+        'plugin.notifier.notifications',
+        'core.translates'
     ];
 
     public function setUp()
