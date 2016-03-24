@@ -106,6 +106,8 @@ class NotifierComponentTest extends TestCase
         $this->assertEquals(2, count($this->Notifier->getNotifications(2)));
         $this->assertEquals(0, count($this->Notifier->getNotifications(2, true)));
         $this->assertEquals(2, count($this->Notifier->getNotifications(2, false)));
+        $this->assertEquals(1, count($this->Notifier->getNotifications(1, true, 1)));
+        $this->assertEquals(2, count($this->Notifier->getNotifications(2, false, 3)));
     }
 
     public function testMarkAsReadWithAuth()
