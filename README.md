@@ -4,14 +4,16 @@
 [![Coverage Status](https://coveralls.io/repos/cakemanager/cakephp-notifier/badge.svg?branch=master&service=github)](https://coveralls.io/github/cakemanager/cakephp-notifier?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cakemanager/cakephp-notifier?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+This plugin allows you to integrate a simple notification system into your application.
+
 ## Installation
 
 You can install this plugin into your CakePHP application using [composer](http://getcomposer.org).
 
-The recommended way to install composer packages is:
+The recommended way to install this plugin as composer package is:
 
 ```
-    composer require cakemanager/cakephp-notifier:dev-master
+    composer require cakemanager/cakephp-notifier
 ```
 
 ## Usage
