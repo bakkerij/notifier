@@ -12,12 +12,11 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Test\TestCase\Model\Table;
+namespace CakePlugins\Notifier\Test\TestCase\Model\Table;
 
+use CakePlugins\Notifier\Utility\NotificationManager;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Notifier\Model\Table\NotificationsTable;
-use Notifier\Utility\NotificationManager;
 
 /**
  * Notifier\Model\Table\NotificationsTable Test Case
@@ -26,13 +25,13 @@ class NotificationsTableTest extends TestCase
 {
     
     public $fixtures = [
-        'plugin.notifier.notifications',
+        'plugin.cakePlugins\Notifier.notifications',
     ];
 
     public function setUp()
     {
         parent::setUp();
-        $this->Notifications = TableRegistry::get('Notifier.Notifications');
+        $this->Notifications = TableRegistry::get('CakePlugins/Notifier.Notifications');
     }
 
     public function tearDown()

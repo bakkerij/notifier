@@ -12,18 +12,18 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Test\TestCase\Utility;
+namespace CakePlugins\Notifier\Test\TestCase\Utility;
 
+use CakePlugins\Notifier\Utility\NotificationManager;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Notifier\Utility\NotificationManager;
 
 class NotificationManagerTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.notifier.notifications'
+        'plugin.cakePlugins\Notifier.notifications'
     ];
 
     public function setUp()
@@ -31,7 +31,7 @@ class NotificationManagerTest extends TestCase
         parent::setUp();
         $this->Manager = NotificationManager::instance();
 
-        $this->Model = TableRegistry::get('Notifier.Notifications');
+        $this->Model = TableRegistry::get('CakePlugins/Notifier.Notifications');
     }
 
     public function tearDown()
@@ -45,7 +45,7 @@ class NotificationManagerTest extends TestCase
     public function testInstance()
     {
         $instance = NotificationManager::instance();
-        $this->assertInstanceOf('Notifier\Utility\NotificationManager', $instance);
+        $this->assertInstanceOf('CakePlugins\Notifier\Utility\NotificationManager', $instance);
     }
 
     public function testNotificationFailWithEmpty()

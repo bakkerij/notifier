@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Notifier\\": "src"
+            "CakePlugins\\Notifier\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Notifier\\Test\\": "tests",
+            "CakePlugins\\Notifier\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
         }
     }

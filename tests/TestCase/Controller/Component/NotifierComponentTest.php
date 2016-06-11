@@ -12,15 +12,15 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Test\TestCase\Controller\Component;
+namespace CakePlugins\Notifier\Test\TestCase\Controller\Component;
 
+use CakePlugins\Notifier\Controller\Component\NotifierComponent;
+use CakePlugins\Notifier\Utility\NotificationManager;
 use Cake\Controller\ComponentRegistry;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Notifier\Controller\Component\NotifierComponent;
-use Notifier\Utility\NotificationManager;
 
 /**
  * Notifier\Controller\Component\NotifierComponent Test Case
@@ -29,7 +29,7 @@ class NotifierComponentTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.notifier.notifications'
+        'plugin.cakePlugins\Notifier.notifications'
     ];
 
     public function setUp()
@@ -37,14 +37,19 @@ class NotifierComponentTest extends TestCase
         parent::setUp();
 
         $this->Manager = NotificationManager::instance();
-        $this->Model = TableRegistry::get('Notifier.Notifications');
+        $this->Model = TableRegistry::get('CakePlugins/Notifier.Notifications');
 
         // Setup our component and fake the controller
         $request = new Request();
         $response = new Response();
 
-        $this->controller = $this->getMock('Cake\Controller\Controller', ['redirect'], [$request, $response]);
+        $this->controller = $this->getMockBuilder('Cake\Controller\Controller')
+            ->setConstructorArgs([$request, $response])
+            ->setMethods(['redirect'])
+            ->getMock();
+
         $this->controller->loadComponent('Auth');
+
         $this->controller->Auth->setUser([
             'id' => 1,
         ]);

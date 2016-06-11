@@ -12,7 +12,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Utility;
+namespace CakePlugins\Notifier\Utility;
 
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -33,7 +33,7 @@ class NotificationManager
      * The singleton class uses the instance() method to return the instance of the NotificationManager.
      *
      * @param null $manager Possible different manager. (Helpfull for testing).
-     * @return Notifier\Utility\NotificationManager
+     * @return NotificationManager
      */
     public static function instance($manager = null)
     {
@@ -75,7 +75,7 @@ class NotificationManager
      */
     public function notify($data)
     {
-        $model = TableRegistry::get('Notifier.Notifications');
+        $model = TableRegistry::get('CakePlugins/Notifier.Notifications');
 
         $_data = [
             'users' => [],

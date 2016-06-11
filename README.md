@@ -13,25 +13,22 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install this plugin as composer package is:
 
 ```
-    composer require cakemanager/cakephp-notifier
+    composer require cakeplugins/notifier
 ```
 
-## Usage
+Now load the plugin via the following command:
 
-### Configurations
-
-You will need to add the following line to your application's bootstrap.php file:
-
-    Plugin::load('Notifier', ['bootstrap' => true, 'routes' => true]);
-
-    // or run the following command:
-    bin/cake plugin install -b -r Notifier
-
-Note: You don't need to load the routes if you are not using the CakeManager Plugin.
+```
+    bin/cake plugin install -b Notifier
+```
 
 After loading the plugin you need to migrate the tables for the plugin using:
 
+```
     bin/cake migrations migrate -p Notifier
+```
+
+## Usage
 
 ### NotificationManager
 

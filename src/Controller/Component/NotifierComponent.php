@@ -12,14 +12,12 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Controller\Component;
+namespace CakePlugins\Notifier\Controller\Component;
 
+use CakePlugins\Notifier\Utility\NotificationManager;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Text;
-use Notifier\Utility\NotificationManager;
 
 /**
  * Notifier component
@@ -99,7 +97,7 @@ class NotifierComponent extends Component
             $userId = $this->Controller->Auth->user('id');
         }
 
-        $model = TableRegistry::get('Notifier.Notifications');
+        $model = TableRegistry::get('CakePlugins/Notifier.Notifications');
 
         $query = $model->find()->where(['Notifications.user_id' => $userId])->order(['created' => 'desc']);
 
@@ -141,7 +139,7 @@ class NotifierComponent extends Component
             $userId = $this->Controller->Auth->user('id');
         }
 
-        $model = TableRegistry::get('Notifier.Notifications');
+        $model = TableRegistry::get('CakePlugins/Notifier.Notifications');
 
         $query = $model->find()->where(['Notifications.user_id' => $userId]);
 
@@ -168,7 +166,7 @@ class NotifierComponent extends Component
             $user = $this->Controller->Auth->user('id');
         }
 
-        $model = TableRegistry::get('Notifier.Notifications');
+        $model = TableRegistry::get('CakePlugins/Notifier.Notifications');
 
         if (!$notificationId) {
             $query = $model->find('all')->where([

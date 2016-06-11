@@ -12,7 +12,7 @@
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace Notifier\Model\Entity;
+namespace CakePlugins\Notifier\Model\Entity;
 
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
