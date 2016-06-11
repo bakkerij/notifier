@@ -37,12 +37,69 @@ The `NotificationManager` is the Manager of the plugin. You can get an instance 
 
     NotificationManager::instance();
 
-The `NotificationManager` has the following namespace: `Notifier\Utility\NotificationManager`.
+The `NotificationManager` has the following namespace: `CakePlugins\Notifier\Utility\NotificationManager`.
 
-### NotifierComponent
+### Notifier Component
 
-The `NotifierComponent can be used in controllers to create notifications and return data like read/unread notifications
-and totals (like 4 unread notifications).
+The `CakePlugins/Notifier.Notifier` component can be used in Controllers:
+
+```
+public function initialize()
+{
+    parent::initialize();
+    $this->loadComponent('CakePlugins/Notifier.Notifier');
+}
+```
+
+The component contains the following methods:
+
+- `getNotifications`
+You can easily retrieve notifications via the `getNotifications` method. Some examples:
+
+```
+    // getting a list of all notifications of the current logged in user
+    $this->Notifier->getNotifications();
+
+    // getting a list of all notifications of the user with id 2
+    $this->Notifier->getNotifications(2);
+    
+    // getting a list of all unread notifications
+    $this->Notifier->allNotificationList(2, true);
+
+    // getting a list of all read notifications
+    $this->Notifier->allNotificationList(2, false);
+```
+
+- `countNotifications`
+Getting counts of read/unread notifications can be done via the `countNotifications` method. Some examples:
+
+```
+    // getting a number of all notifications of the current logged in user
+    $this->Notifier->countNotifications();
+
+    // getting a number of all notifications of the user with id 2
+    $this->Notifier->countNotifications(2);
+    
+    // getting a number of all unread notifications
+    $this->Notifier->countNotificationList(2, true);
+
+    // getting a number of all read notifications
+    $this->Notifier->countNotificationList(2, false);
+```
+
+- `markAsRead`
+To mark notifications as read, you can use the `markAsRead` method. Some examples:
+
+```
+    // mark a single notification as read
+    $this->Notifier->markAsRead(500;
+
+    // mark all notifications of the given user as read
+    $this->Notifier->markAsRead(null, 2);
+```
+
+- `notify`
+> Same as the `NotificationManager::notify()` method.
 
 ### Templates
 Notifications are viewed in a template including variables. When sending a new notification, you tell the notification
@@ -87,34 +144,8 @@ RecipientLists.
 - `vars` - Variables to use. In the template `newBlog` we used the variables `username` and `name`. These variables can
 be defined here.
 
-### Lists
-Of course you want to get a list of notifications per user. Here are some examples:
-
-    // getting a list of all notifications of the current logged in user
-    $this->Notifier->getNotifications();
-
-    // getting a list of all notifications of the user with id 2
-    $this->Notifier->getNotifications(2);
-    
-    // getting a list of all unread notifications
-    $this->Notifier->allNotificationList(2, true);
-
-    // getting a list of all read notifications
-    $this->Notifier->allNotificationList(2, false);
-    
-    // getting a number of all notifications of the current logged in user
-    $this->Notifier->countNotifications();
-
-    // getting a number of all notifications of the user with id 2
-    $this->Notifier->countNotifications(2);
-    
-    // getting a number of all unread notifications
-    $this->Notifier->countNotificationList(2, true);
-
-    // getting a number of all read notifications
-    $this->Notifier->countNotificationList(2, false);
-
-You can do something like this to use the notification-list in your view:
+#### Passing to View   
+You can do something like this to use the notification list in your view:
 
     $this->set('notifications', $this->Notifier->getNotifications());
 
@@ -146,11 +177,11 @@ Example:
     // returns true or false
     $entity->get('unread');
     
-    // returns the full output 'Bob Mulder has posted a new blog named My Great New Post'
+    // returns the full output like 'Bob Mulder has posted a new blog named My Great New Post'
     $entity->get('body');
 
 ## Keep in touch
 If you need some help or got ideas for this plugin, feel free to chat at
-[Gitter](https://gitter.im/cakemanager/cakephp-notifier).
+[Gitter](https://gitter.im/cakeplugins/notifier).
 
 Pull Requests are always more than welcome!
