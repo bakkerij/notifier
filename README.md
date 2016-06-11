@@ -1,8 +1,9 @@
 # Notifier plugin for CakePHP
 
-[![Build Status](https://travis-ci.org/cakemanager/cakephp-notifier.svg?branch=master)](https://travis-ci.org/cakemanager/cakephp-notifier)
-[![Coverage Status](https://coveralls.io/repos/cakemanager/cakephp-notifier/badge.svg?branch=master&service=github)](https://coveralls.io/github/cakemanager/cakephp-notifier?branch=master)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cakemanager/cakephp-notifier?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Travis](https://img.shields.io/travis/cakeplugins/notifier.svg?maxAge=2592000)](https://travis-ci.org/cakeplugins/notifier) 
+[![Packagist](https://img.shields.io/packagist/dt/cakemanager/cakephp-notifier.svg?maxAge=2592000)](https://packagist.org/packages/cakeplugins/notifier)
+[![Packagist](https://img.shields.io/packagist/v/cakeplugins/notifier.svg?maxAge=2592000)](https://packagist.org/packages/cakeplugins/notifier)
+[![Gitter](https://img.shields.io/gitter/room/cakeplugins/notifier.js.svg?maxAge=2592000)](https://gitter.im/cakeplugins/notifier)
 
 This plugin allows you to integrate a simple notification system into your application.
 
