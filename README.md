@@ -5,7 +5,7 @@
 [![Packagist](https://img.shields.io/packagist/v/cakeplugins/notifier.svg?style=flat-square)](https://packagist.org/packages/cakeplugins/notifier)
 [![Gitter](https://img.shields.io/gitter/room/cakeplugins/notifier.js.svg?style=flat-square)](https://gitter.im/cakeplugins/notifier)
 
-This plugin allows you to integrate a simple notification system into your application.
+This plugin allows you to integrate a simple notification system into your application. 
 
 ## Installation
 
@@ -29,31 +29,75 @@ After loading the plugin you need to migrate the tables for the plugin using:
     bin/cake migrations migrate -p Notifier
 ```
 
-## Usage
+## Sending notifications
 
-### NotificationManager
+#### Templates
 
-The `NotificationManager` is the Manager of the plugin. You can get an instance with:
-
-    NotificationManager::instance();
-
-The `NotificationManager` has the following namespace: `CakePlugins\Notifier\Utility\NotificationManager`.
-
-### Notifier Component
-
-The `CakePlugins/Notifier.Notifier` component can be used in Controllers:
+Before sending any notification, we need to register a template. An example about how to add templates:
 
 ```
-public function initialize()
-{
-    parent::initialize();
-    $this->loadComponent('CakePlugins/Notifier.Notifier');
-}
+    $notificationManager->addTemplate('newBlog', [
+        'title' => 'New blog by :username',
+        'body' => ':username has posted a new blog named :name'
+    ]);
 ```
 
-The component contains the following methods:
+When adding a new template, you have to add a `title` and a `body`. Both are able to contain variables like `:username`
+and `:name`. Later on we will tell more about these variables.
 
-- `getNotifications`
+#### Notify
+
+Now we will be able to send a new notification using our `newBlog` template.
+
+```
+    $notificationManager->notify([
+        'users' => [1, 2],
+        'recipientLists' => ['administrators'],
+        'template' => 'newBlog',
+        'vars' => [
+            'username' => 'Bob Mulder',
+            'name' => 'My great new blogpost'
+        ]
+    ]);
+```
+
+> Note: You are also able to send notifications via the component: `$this->Notifier->notify()`.
+
+With the `notify` method we sent a new notification. A list of all attributes:
+
+- `users` - This is an integer or array filled with id's of users to notify. So, when you want to notify user 261 and
+373, add `[261, 373]`.
+- `recipientLists` - This is a string or array with lists of recipients. Further on you can find more about
+RecipientLists.
+- `template` - The template you added, for example `newBlog`.
+- `vars` - Variables to use. In the template `newBlog` we used the variables `username` and `name`. These variables can
+be defined here.
+
+#### Recipient Lists
+
+To send notifications to large groups you are able to use RecipientLists.
+You can register them with:
+
+```
+    $notificationManager->addRecipientList('administrators', [1,2,3,4]);
+```
+    
+Now we have created a list of recipients called `administrators`.
+
+This can be used later on when we send a new notification: 
+
+```
+    $notificationManager->notify([
+        'recipientLists' => ['administrators'],
+    ]);
+```
+
+Now, the users 1, 2, 3 and 4 will receive a notification.
+
+## Retrieving notifications
+
+#### Lists
+
 You can easily retrieve notifications via the `getNotifications` method. Some examples:
 
 ```
@@ -70,7 +114,8 @@ You can easily retrieve notifications via the `getNotifications` method. Some ex
     $this->Notifier->allNotificationList(2, false);
 ```
 
-- `countNotifications`
+#### Counts
+
 Getting counts of read/unread notifications can be done via the `countNotifications` method. Some examples:
 
 ```
@@ -87,7 +132,8 @@ Getting counts of read/unread notifications can be done via the `countNotificati
     $this->Notifier->countNotificationList(2, false);
 ```
 
-- `markAsRead`
+#### Mark as read
+
 To mark notifications as read, you can use the `markAsRead` method. Some examples:
 
 ```
@@ -98,75 +144,9 @@ To mark notifications as read, you can use the `markAsRead` method. Some example
     $this->Notifier->markAsRead(null, 2);
 ```
 
-- `notify`
-> Same as the `NotificationManager::notify()` method.
+#### Notification Entity
 
-### Templates
-Notifications are viewed in a template including variables. When sending a new notification, you tell the notification
-what template to use.
-
-An example about how to add templates:
-
-    $notificationManager->addTemplate('newBlog', [
-        'title' => 'New blog by :username',
-        'body' => ':username has posted a new blog named :name'
-    ]);
-
-When adding a new template, you have to add a `title` and a `body`. Both are able to contain variables like `:username`
-and `:name`. Later on we will tell more about these variables.
-
-Removing a template is easy:
-
-    $notificationManager->removeTemplate('newBlog');
-
-### Notify
-Now we will be able to send a new notification using our `newBlog` template.
-
-    $notificationManager->notify([
-        'users' => [1,2],
-        'recipientLists' => ['administrators'],
-        'template' => 'newBlog',
-        'vars' => [
-            'username' => 'Bob Mulder',
-            'name' => 'My great new blogpost'
-        ]
-    ]);
-
-> Note: You are also able to send notifications via the component: `$this->Notifier->notify()`.
-
-With the `notify` method we sent a new notification. A list of all attributes:
-
-- `users` - This is an integer or array filled with id's of users to notify. So, when you want to notify user 261 and
-373, add `[261, 373]`.
-- `recipientLists` - This is a string or array with lists of recipients. Further on you can find more about
-RecipientLists.
-- `template` - The template you added, for example `newBlog`.
-- `vars` - Variables to use. In the template `newBlog` we used the variables `username` and `name`. These variables can
-be defined here.
-
-#### Passing to View   
-You can do something like this to use the notification list in your view:
-
-    $this->set('notifications', $this->Notifier->getNotifications());
-
-### RecipientLists
-To send notifications to large groups you are able to use RecipientLists.
-You can register them with:
-
-    $notificationManager->addRecipientList('administrators', [1,2,3,4]);
-    
-Now we have created a list of recipients called `administrators`.
-
-This can be used later on when we send a new notification: 
-
-    $notificationManager->notify([
-        'recipientLists' => ['administrators'],
-    ]);
-
-Now, the users 1, 2, 3 and 4 will recieve a notification.
-
-### Model / Entity
-The following getters can be used at your entity:
+The following getters can be used at your notifications entity:
 - `title` - The generated title including the variables.
 - `body` - The generated body including the variables.
 - `unread` - Boolean if the notification is not read yet.
@@ -174,14 +154,61 @@ The following getters can be used at your entity:
 
 Example:
     
+```    
     // returns true or false
     $entity->get('unread');
     
     // returns the full output like 'Bob Mulder has posted a new blog named My Great New Post'
     $entity->get('body');
+```
+
+#### Passing to view
+
+You can do something like this to use the notification list in your view:
+
+```
+    $this->set('notifications', $this->Notifier->getNotifications());
+```
+
+## Notification Manager
+
+The `NotificationManager` is the Manager of the plugin. You can get an instance with:
+
+```
+    NotificationManager::instance();
+```
+
+The `NotificationManager` has the following namespace: `CakePlugins\Notifier\Utility\NotificationManager`.
+
+The manager has the following methods available:
+
+- `notify`
+- `addRecipientList`
+- `getRecipientList`
+- `addTemplate`
+- `getTemplate`
+
+## Notifier Component
+
+The `CakePlugins/Notifier.Notifier` component can be used in Controllers:
+
+```
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('CakePlugins/Notifier.Notifier');
+    }
+```
+
+The component has the following methods available:
+
+- `getNotifications`
+- `countNotifications`
+- `markAsRead`
+- `notify`
 
 ## Keep in touch
-If you need some help or got ideas for this plugin, feel free to chat at
-[Gitter](https://gitter.im/cakeplugins/notifier).
+
+If you need some help or got ideas for this plugin, feel free to chat at [Gitter](https://gitter.im/cakeplugins/notifier).
 
 Pull Requests are always more than welcome!
