@@ -35,7 +35,7 @@ After loading the plugin you need to migrate the tables for the plugin using:
 
 Before sending any notification, we need to register a template. An example about how to add templates:
 
-```
+```php
     $notificationManager->addTemplate('newBlog', [
         'title' => 'New blog by :username',
         'body' => ':username has posted a new blog named :name'
@@ -49,7 +49,7 @@ and `:name`. Later on we will tell more about these variables.
 
 Now we will be able to send a new notification using our `newBlog` template.
 
-```
+```php
     $notificationManager->notify([
         'users' => [1, 2],
         'recipientLists' => ['administrators'],
@@ -78,7 +78,7 @@ be defined here.
 To send notifications to large groups you are able to use RecipientLists.
 You can register them with:
 
-```
+```php
     $notificationManager->addRecipientList('administrators', [1,2,3,4]);
 ```
     
@@ -86,7 +86,7 @@ Now we have created a list of recipients called `administrators`.
 
 This can be used later on when we send a new notification: 
 
-```
+```php
     $notificationManager->notify([
         'recipientLists' => ['administrators'],
     ]);
@@ -100,7 +100,7 @@ Now, the users 1, 2, 3 and 4 will receive a notification.
 
 You can easily retrieve notifications via the `getNotifications` method. Some examples:
 
-```
+```php
     // getting a list of all notifications of the current logged in user
     $this->Notifier->getNotifications();
 
@@ -118,7 +118,7 @@ You can easily retrieve notifications via the `getNotifications` method. Some ex
 
 Getting counts of read/unread notifications can be done via the `countNotifications` method. Some examples:
 
-```
+```php
     // getting a number of all notifications of the current logged in user
     $this->Notifier->countNotifications();
 
@@ -136,7 +136,7 @@ Getting counts of read/unread notifications can be done via the `countNotificati
 
 To mark notifications as read, you can use the `markAsRead` method. Some examples:
 
-```
+```php
     // mark a single notification as read
     $this->Notifier->markAsRead(500;
 
@@ -154,7 +154,7 @@ The following getters can be used at your notifications entity:
 
 Example:
     
-```    
+```php
     // returns true or false
     $entity->get('unread');
     
@@ -166,7 +166,7 @@ Example:
 
 You can do something like this to use the notification list in your view:
 
-```
+```php
     $this->set('notifications', $this->Notifier->getNotifications());
 ```
 
@@ -174,7 +174,7 @@ You can do something like this to use the notification list in your view:
 
 The `NotificationManager` is the Manager of the plugin. You can get an instance with:
 
-```
+```php
     NotificationManager::instance();
 ```
 
@@ -192,7 +192,7 @@ The manager has the following methods available:
 
 The `CakePlugins/Notifier.Notifier` component can be used in Controllers:
 
-```
+```php
     public function initialize()
     {
         parent::initialize();
