@@ -1,20 +1,20 @@
 <?php
 /**
- * CakeManager (http://cakemanager.org)
- * Copyright (c) http://cakemanager.org
+ * Bakkerij (https://github.com/bakkerij)
+ * Copyright (c) https://github.com/bakkerij
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) http://cakemanager.org
- * @link          http://cakemanager.org CakeManager Project
+ * @copyright     Copyright (c) https://github.com/bakkerij
+ * @link          https://github.com/bakkerij Bakkerij Project
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace CakePlugins\Notifier\Test\TestCase\Utility;
+namespace Bakkerij\Notifier\Test\TestCase\Utility;
 
-use CakePlugins\Notifier\Utility\NotificationManager;
+use Bakkerij\Notifier\Utility\NotificationManager;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
@@ -23,7 +23,7 @@ class NotificationManagerTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.cakePlugins\Notifier.notifications'
+        'plugin.bakkerij\Notifier.notifications'
     ];
 
     public function setUp()
@@ -31,7 +31,7 @@ class NotificationManagerTest extends TestCase
         parent::setUp();
         $this->Manager = NotificationManager::instance();
 
-        $this->Model = TableRegistry::get('CakePlugins/Notifier.Notifications');
+        $this->Model = TableRegistry::get('Bakkerij/Notifier.Notifications');
     }
 
     public function tearDown()
@@ -45,7 +45,7 @@ class NotificationManagerTest extends TestCase
     public function testInstance()
     {
         $instance = NotificationManager::instance();
-        $this->assertInstanceOf('CakePlugins\Notifier\Utility\NotificationManager', $instance);
+        $this->assertInstanceOf('Bakkerij\Notifier\Utility\NotificationManager', $instance);
     }
 
     public function testNotificationFailWithEmpty()

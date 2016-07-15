@@ -1,21 +1,21 @@
 <?php
 /**
- * CakeManager (http://cakemanager.org)
- * Copyright (c) http://cakemanager.org
+ * Bakkerij (https://github.com/bakkerij)
+ * Copyright (c) https://github.com/bakkerij
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) http://cakemanager.org
- * @link          http://cakemanager.org CakeManager Project
+ * @copyright     Copyright (c) https://github.com/bakkerij
+ * @link          https://github.com/bakkerij Bakkerij Project
  * @since         1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace CakePlugins\Notifier\Test\TestCase\Controller\Component;
+namespace Bakkerij\Notifier\Test\TestCase\Controller\Component;
 
-use CakePlugins\Notifier\Controller\Component\NotifierComponent;
-use CakePlugins\Notifier\Utility\NotificationManager;
+use Bakkerij\Notifier\Controller\Component\NotifierComponent;
+use Bakkerij\Notifier\Utility\NotificationManager;
 use Cake\Controller\ComponentRegistry;
 use Cake\Network\Request;
 use Cake\Network\Response;
@@ -29,7 +29,7 @@ class NotifierComponentTest extends TestCase
 {
 
     public $fixtures = [
-        'plugin.cakePlugins\Notifier.notifications'
+        'plugin.bakkerij\Notifier.notifications'
     ];
 
     public function setUp()
@@ -37,7 +37,7 @@ class NotifierComponentTest extends TestCase
         parent::setUp();
 
         $this->Manager = NotificationManager::instance();
-        $this->Model = TableRegistry::get('CakePlugins/Notifier.Notifications');
+        $this->Model = TableRegistry::get('Bakkerij/Notifier.Notifications');
 
         // Setup our component and fake the controller
         $request = new Request();

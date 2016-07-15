@@ -1,9 +1,9 @@
 # Notifier plugin for CakePHP
 
-[![Travis](https://img.shields.io/travis/cakeplugins/notifier.svg?style=flat-square)](https://travis-ci.org/cakeplugins/notifier) 
-[![Packagist](https://img.shields.io/packagist/dt/cakemanager/cakephp-notifier.svg?style=flat-square)](https://packagist.org/packages/cakeplugins/notifier)
-[![Packagist](https://img.shields.io/packagist/v/cakeplugins/notifier.svg?style=flat-square)](https://packagist.org/packages/cakeplugins/notifier)
-[![Gitter](https://img.shields.io/gitter/room/cakeplugins/notifier.js.svg?style=flat-square)](https://gitter.im/cakeplugins/notifier)
+[![Travis](https://img.shields.io/travis/bakkerij/notifier.svg?style=flat-square)](https://travis-ci.org/bakkerij/notifier) 
+[![Packagist](https://img.shields.io/packagist/dt/cakemanager/cakephp-notifier.svg?style=flat-square)](https://packagist.org/packages/bakkerij/notifier)
+[![Packagist](https://img.shields.io/packagist/v/bakkerij/notifier.svg?style=flat-square)](https://packagist.org/packages/bakkerij/notifier)
+[![Gitter](https://img.shields.io/gitter/room/bakkerij/notifier.js.svg?style=flat-square)](https://gitter.im/bakkerij/notifier)
 
 This plugin allows you to integrate a simple notification system into your application. 
 
@@ -14,19 +14,19 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install this plugin as composer package is:
 
 ```
-    composer require cakeplugins/notifier
+    composer require bakkerij/notifier
 ```
 
 Now load the plugin via the following command:
 
 ```
-    bin/cake plugin install -b Notifier
+    bin/cake plugin load -b Bakkerij/Notifier
 ```
 
 After loading the plugin you need to migrate the tables for the plugin using:
 
 ```
-    bin/cake migrations migrate -p Notifier
+    bin/cake migrations migrate -p Bakkerij/Notifier
 ```
 
 ## Sending notifications
@@ -178,7 +178,7 @@ The `NotificationManager` is the Manager of the plugin. You can get an instance 
     NotificationManager::instance();
 ```
 
-The `NotificationManager` has the following namespace: `CakePlugins\Notifier\Utility\NotificationManager`.
+The `NotificationManager` has the following namespace: `Bakkerij\Notifier\Utility\NotificationManager`.
 
 The manager has the following methods available:
 
@@ -190,13 +190,13 @@ The manager has the following methods available:
 
 ## Notifier Component
 
-The `CakePlugins/Notifier.Notifier` component can be used in Controllers:
+The `Bakkerij/Notifier.Notifier` component can be used in Controllers:
 
 ```php
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('CakePlugins/Notifier.Notifier');
+        $this->loadComponent('Bakkerij/Notifier.Notifier');
     }
 ```
 
@@ -209,6 +209,6 @@ The component has the following methods available:
 
 ## Keep in touch
 
-If you need some help or got ideas for this plugin, feel free to chat at [Gitter](https://gitter.im/cakeplugins/notifier).
+If you need some help or got ideas for this plugin, feel free to chat at [Gitter](https://gitter.im/bakkerij/notifier).
 
 Pull Requests are always more than welcome!
