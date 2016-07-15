@@ -1,5 +1,5 @@
 {
-    "name": "cakeplugins/notifier",
+    "name": "bakkerij/notifier",
     "description": "Notifier plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "CakePlugins\\Notifier\\": "src"
+            "Bakkerij\\Notifier\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "CakePlugins\\Notifier\\Test\\": "tests",
+            "Bakkerij\\Notifier\\Test\\": "tests",
             "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
         }
     }
