@@ -3,7 +3,7 @@
     "description": "Notifier plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
-        "php": ">=5.4.16"
+        "php": ">=5.4.16",
     },
     "require-dev": {
         "phpunit/phpunit": "*",
