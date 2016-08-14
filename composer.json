@@ -1,5 +1,5 @@
 {
-    "name": "bakkerij/notifier",
+    "name": "B1scuit/notifier",
     "description": "Notifier plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
