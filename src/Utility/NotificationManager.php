@@ -43,6 +43,7 @@ class NotificationManager
         if (empty(static::$_generalManager)) {
             static::$_generalManager = new NotificationManager();
         }
+
         return static::$_generalManager;
     }
 
@@ -203,6 +204,7 @@ class NotificationManager
             if ($type == 'body') {
                 return $templates[$name]['body'];
             }
+
             return $templates[$name];
         }
 
@@ -224,6 +226,7 @@ class NotificationManager
         for ($i = 0; $i < 10; $i++) {
             $trackingId .= $characters[rand(0, $charactersLength - 1)];
         }
+
         return $trackingId;
     }
 }
