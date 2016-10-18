@@ -68,6 +68,12 @@ Create a file in your config folder named `templates.php` and create your templa
     ];
 ```
 
+Then load your file from your bootstrap.php file:
+
+```php
+    Configure::write('Notifier.config', ['templates']);
+```
+
 
 When adding a new template, you have to add a `title` and a `body`. Both are able to contain variables like `:username`
 and `:name`. Later on we will tell more about these variables.
