@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 5.6
   - 7.0
   - 7.1
   - 7.2
@@ -21,10 +20,10 @@ matrix:
   fast_finish: true
 
   include:
-  - php: 5.6
+  - php: 7.0
     env: PHPCS=1 DEFAULT=0
 
-  - php: 5.6
+  - php: 7.0
     env: DEFAULT=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
 
 install:
