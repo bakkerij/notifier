@@ -94,6 +94,7 @@ class Notification extends Entity
 
             return Text::insert($template['title'], $vars);
         }
+
         return '';
     }
 
@@ -117,6 +118,7 @@ class Notification extends Entity
 
             return Text::insert($template['body'], $vars);
         }
+
         return '';
     }
 
@@ -132,6 +134,7 @@ class Notification extends Entity
         if ($this->_properties['state'] === 1) {
             return true;
         }
+
         return false;
     }
 
@@ -147,6 +150,7 @@ class Notification extends Entity
         if ($this->_properties['state'] === 0) {
             return true;
         }
+
         return false;
     }
 
