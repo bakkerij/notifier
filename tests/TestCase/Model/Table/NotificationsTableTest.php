@@ -23,7 +23,7 @@ use Cake\TestSuite\TestCase;
  */
 class NotificationsTableTest extends TestCase
 {
-    
+
     public $fixtures = [
         'plugin.bakkerij\Notifier.notifications',
     ];

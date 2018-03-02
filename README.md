@@ -33,14 +33,47 @@ After loading the plugin you need to migrate the tables for the plugin using:
 
 #### Templates
 
-Before sending any notification, we need to register a template. An example about how to add templates:
+Before sending any notification, we need to register a template. There are two ways to add templates:
+
+##### 1. Using NotificationManager utility class to create templates
 
 ```php
+    use Bakkerij\Notifier\Utility\NotificationManager;
+
+    $notificationManager = NotificationManager::instance();
     $notificationManager->addTemplate('newBlog', [
         'title' => 'New blog by :username',
         'body' => ':username has posted a new blog named :name'
     ]);
 ```
+
+##### 2. Using config files to define templates
+
+Create a file in your config folder named `templates.php` and create your templates as below:
+
+```php
+    return [
+        'Notifier' => [
+            'templates' => [
+                'newBlog' => [
+                    'title' => 'New blog by :username',
+                    'body' => ':username has posted a new blog named :name'
+                ],
+                'newMessage' => [
+                    'title' => 'New message from :username',
+                    'body' => ':username sent you a message on :timeago'
+                ]
+            ]
+        ]
+    ];
+```
+
+Then load your file from your bootstrap.php file:
+
+```php
+    Configure::write('Notifier.config', ['templates']);
+```
+
 
 When adding a new template, you have to add a `title` and a `body`. Both are able to contain variables like `:username`
 and `:name`. Later on we will tell more about these variables.

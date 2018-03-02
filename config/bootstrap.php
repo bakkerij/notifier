@@ -21,3 +21,7 @@ Configure::write('Notifier.templates.default', [
 ]);
 
 Configure::write('Notifier.recipientLists', []);
+
+collection((array)Configure::read('Notifier.config'))->each(function ($file) {
+    Configure::load($file);
+});
