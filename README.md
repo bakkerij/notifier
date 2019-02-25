@@ -138,7 +138,7 @@ To mark notifications as read, you can use the `markAsRead` method. Some example
 
 ```php
     // mark a single notification as read
-    $this->Notifier->markAsRead(500;
+    $this->Notifier->markAsRead(500);
 
     // mark all notifications of the given user as read
     $this->Notifier->markAsRead(null, 2);
